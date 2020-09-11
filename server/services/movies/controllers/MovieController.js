@@ -25,13 +25,7 @@ class MovieController {
     }
 
     static async insertOne (req, res) {
-        const newMovie = {
-            title: req.body.title,
-            overview: req.body.overview,
-            poster_path: req.body.poster_path,
-            popularity: +req.body.popularity,
-            tags: req.body.tags.split(',')
-        }
+        const newMovie = req.body
         try {
             const result = await Movie.insertOne(newMovie)
             res.status(201).json(result.ops[0])
@@ -42,20 +36,10 @@ class MovieController {
 
     static async updateOne (req, res) {
         const MovieId = req.params.id
-        const updateMovie = {
-            title: req.body.title,
-            overview: req.body.overview,
-            poster_path: req.body.poster_path,
-            popularity: +req.body.popularity,
-            tags: req.body.tags.split(',')
-        }
+        const updateMovie = req.body
         try {
             const result = await Movie.updateOne(MovieId, updateMovie)
-            if (result.matchedCount === 1) {
-                res.status(200).json(result)
-            } else {
-                res.status(404).json({message: `Can't find data`})
-            }
+            res.status(200).json(result.value)
         } catch (err) {
             res.status(500).json({message: err})
         }
@@ -65,11 +49,7 @@ class MovieController {
         const MovieId = req.params.id
         try {
             const result = await Movie.deleteOne(MovieId)
-            if (result.deletedCount === 1) {
-                res.status(200).json(result)
-            } else {
-                res.status(404).json({message: `Can't fint data`})
-            }
+            res.status(200).json(result.value)
         } catch (err) {
             res.status(500).json({message: err})
         }

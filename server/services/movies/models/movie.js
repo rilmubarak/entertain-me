@@ -17,11 +17,11 @@ class MovieModel {
     }
 
     static updateOne(id, updateMovie) {
-        return Movie.updateOne({ _id: ObjectID(id) }, {$set: updateMovie})
+        return Movie.findOneAndUpdate({ _id: ObjectID(id) }, {$set: updateMovie}, {returnOriginal: false})
     }
 
     static deleteOne(id) {
-        return Movie.deleteOne({ _id: ObjectID(id) })
+        return Movie.findOneAndDelete({ _id: ObjectID(id) })
     }
 }
 

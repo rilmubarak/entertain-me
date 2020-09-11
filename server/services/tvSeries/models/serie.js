@@ -18,11 +18,11 @@ class SerieModel {
     }
 
     static updateOne(id, updateSerie) {
-        return Serie.updateOne({ _id: ObjectID(id) }, {$set: updateSerie})
+        return Serie.findOneAndUpdate({ _id: ObjectID(id) }, {$set: updateSerie}, {returnOriginal: false})
     }
 
     static deleteOne(id) {
-        return Serie.deleteOne({ _id: ObjectID(id) })
+        return Serie.findOneAndDelete({ _id: ObjectID(id) })
     }
 }
 

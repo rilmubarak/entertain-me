@@ -25,7 +25,16 @@ class SerieController {
     }
 
     static async insertOne (req, res) {
-        const newSerie = req.body
+        const tagsArr = req.body.tags.split(`,`)
+        const tags = tagsArr.map(tag => tag.toLowerCase())
+        const newSerie = {
+            title: req.body.title,
+            overview: req.body.overview,
+            poster_path: req.body.poster_path,
+            popularity: +req.body.popularity,
+            tags,
+            type: `serie`,
+        }
         try {
             const result = await Serie.insertOne(newSerie)
             res.status(201).json(result.ops[0])
@@ -36,7 +45,14 @@ class SerieController {
 
     static async updateOne (req, res) {
         const SerieId = req.params.id
-        const updateSerie = req.body
+        const tags = req.body.tags.split(`,`)
+        const updateSerie = {
+            title: req.body.title,
+            overview: req.body.overview,
+            poster_path: req.body.poster_path,
+            popularity: +req.body.popularity,
+            tags,
+        }
         try {
             const result = await Serie.updateOne(SerieId, updateSerie)
             res.status(200).json(result.value)

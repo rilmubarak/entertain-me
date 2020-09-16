@@ -25,7 +25,16 @@ class MovieController {
     }
 
     static async insertOne (req, res) {
-        const newMovie = req.body
+        const tagsArr = req.body.tags.split(`,`)
+        const tags = tagsArr.map(tag => tag.toLowerCase())
+        const newMovie = {
+            title: req.body.title,
+            overview: req.body.overview,
+            poster_path: req.body.poster_path,
+            popularity: +req.body.popularity,
+            tags,
+            type: 'movie',
+        }
         try {
             const result = await Movie.insertOne(newMovie)
             res.status(201).json(result.ops[0])
@@ -36,7 +45,14 @@ class MovieController {
 
     static async updateOne (req, res) {
         const MovieId = req.params.id
-        const updateMovie = req.body
+        const tags = req.body.tags.split(`,`)
+        const updateMovie = {
+            title: req.body.title,
+            overview: req.body.overview,
+            poster_path: req.body.poster_path,
+            popularity: +req.body.popularity,
+            tags,
+        }
         try {
             const result = await Movie.updateOne(MovieId, updateMovie)
             res.status(200).json(result.value)
